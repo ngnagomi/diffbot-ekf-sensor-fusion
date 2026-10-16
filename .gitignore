@@ -1,0 +1,15 @@
+# colcon build output
+build/
+install/
+log/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Recorded data
+*.db3
+*.mcap
+
+# VSCode
+.vscode/
