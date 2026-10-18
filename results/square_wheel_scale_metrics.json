@@ -1,0 +1,35 @@
+{
+  "run": "square_wheel_scale",
+  "distance_m": 8.022070959738308,
+  "duration_s": 56.019999999999996,
+  "metrics": {
+    "wheel": {
+      "final_pos_err_m": 0.9147228713039367,
+      "rms_pos_err_m": 0.4493168079713656,
+      "max_pos_err_m": 0.9271366311695072,
+      "drift_pct": 11.402577662237189,
+      "final_heading_err_deg": 26.437652812969024,
+      "rms_heading_err_deg": 15.900341251315968
+    },
+    "wheel_in": {
+      "final_pos_err_m": 1.3558815915970805,
+      "rms_pos_err_m": 0.625562301308061,
+      "max_pos_err_m": 1.365357715754498,
+      "drift_pct": 16.901889778862184,
+      "final_heading_err_deg": 40.10374479323639,
+      "rms_heading_err_deg": 24.37353659232183
+    },
+    "ekf": {
+      "final_pos_err_m": 0.12389906567095528,
+      "rms_pos_err_m": 0.14290021363934377,
+      "max_pos_err_m": 0.19743998030359503,
+      "drift_pct": 1.5444773088244665,
+      "final_heading_err_deg": -2.488979200918139,
+      "rms_heading_err_deg": 1.8537492569398706
+    },
+    "imu": {
+      "final_heading_err_deg": -2.3933570632176417,
+      "rms_heading_err_deg": 1.7710322376171723
+    }
+  }
+}

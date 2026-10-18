@@ -1,0 +1,35 @@
+{
+  "run": "square_imu_spikes",
+  "distance_m": 8.022709975681025,
+  "duration_s": 55.8,
+  "metrics": {
+    "wheel": {
+      "final_pos_err_m": 0.8990721570423216,
+      "rms_pos_err_m": 0.4456007532643082,
+      "max_pos_err_m": 0.9116182861611019,
+      "drift_pct": 11.20658929174368,
+      "final_heading_err_deg": 26.22824052221233,
+      "rms_heading_err_deg": 15.82270794452023
+    },
+    "wheel_in": {
+      "final_pos_err_m": 0.9018128861979772,
+      "rms_pos_err_m": 0.443516392545059,
+      "max_pos_err_m": 0.9139310820079749,
+      "drift_pct": 11.240751428527426,
+      "final_heading_err_deg": 26.176404191784528,
+      "rms_heading_err_deg": 15.828100089258882
+    },
+    "ekf": {
+      "final_pos_err_m": 0.42814706304699984,
+      "rms_pos_err_m": 0.4995656072045678,
+      "max_pos_err_m": 0.7105693175190448,
+      "drift_pct": 5.336688779038852,
+      "final_heading_err_deg": 6.024119579271991,
+      "rms_heading_err_deg": 13.540308614617343
+    },
+    "imu": {
+      "final_heading_err_deg": -0.9952290751149093,
+      "rms_heading_err_deg": 9.370821703694613
+    }
+  }
+}

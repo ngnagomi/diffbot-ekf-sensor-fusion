@@ -1,0 +1,35 @@
+{
+  "run": "square_clean_reject",
+  "distance_m": 8.017149474322256,
+  "duration_s": 55.839999999999996,
+  "metrics": {
+    "wheel": {
+      "final_pos_err_m": 0.6044441705883733,
+      "rms_pos_err_m": 0.42155999163252356,
+      "max_pos_err_m": 0.7053836677605531,
+      "drift_pct": 7.539390060324042,
+      "final_heading_err_deg": 4.380247626883681,
+      "rms_heading_err_deg": 9.647972770451059
+    },
+    "wheel_in": {
+      "final_pos_err_m": 0.6033468185249954,
+      "rms_pos_err_m": 0.4190029663658122,
+      "max_pos_err_m": 0.7038706958643522,
+      "drift_pct": 7.52570250133699,
+      "final_heading_err_deg": 4.46651212596134,
+      "rms_heading_err_deg": 9.684012893188928
+    },
+    "ekf": {
+      "final_pos_err_m": 0.04914027554177461,
+      "rms_pos_err_m": 0.05872017944326214,
+      "max_pos_err_m": 0.10335607743244499,
+      "drift_pct": 0.6129394955047757,
+      "final_heading_err_deg": -2.863486625848806,
+      "rms_heading_err_deg": 4.263408910149745
+    },
+    "imu": {
+      "final_heading_err_deg": -3.5084633751042777,
+      "rms_heading_err_deg": 2.216687712875807
+    }
+  }
+}
