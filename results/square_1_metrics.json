@@ -1,0 +1,27 @@
+{
+  "run": "square_1",
+  "distance_m": 8.021421312626885,
+  "duration_s": 56.019999999999996,
+  "metrics": {
+    "wheel": {
+      "final_pos_err_m": 0.9017509820677985,
+      "rms_pos_err_m": 0.4543036114278332,
+      "max_pos_err_m": 0.9144266149629616,
+      "drift_pct": 11.241785550502268,
+      "final_heading_err_deg": 26.369371982020144,
+      "rms_heading_err_deg": 16.035933843616164
+    },
+    "ekf": {
+      "final_pos_err_m": 0.0745900039283664,
+      "rms_pos_err_m": 0.04517952685676409,
+      "max_pos_err_m": 0.08261822601890846,
+      "drift_pct": 0.9298851290973943,
+      "final_heading_err_deg": -2.150467963541212,
+      "rms_heading_err_deg": 1.729399685841816
+    },
+    "imu": {
+      "final_heading_err_deg": -2.1270350483615563,
+      "rms_heading_err_deg": 1.7047011821197129
+    }
+  }
+}

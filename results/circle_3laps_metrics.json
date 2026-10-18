@@ -1,0 +1,27 @@
+{
+  "run": "circle_3laps",
+  "distance_m": 7.54434695201847,
+  "duration_s": 40.4,
+  "metrics": {
+    "wheel": {
+      "final_pos_err_m": 0.6592289804611009,
+      "rms_pos_err_m": 0.39886764441103434,
+      "max_pos_err_m": 0.6735003346856692,
+      "drift_pct": 8.738052274819173,
+      "final_heading_err_deg": 102.26560071674477,
+      "rms_heading_err_deg": 57.651811590448304
+    },
+    "ekf": {
+      "final_pos_err_m": 0.2844781226868399,
+      "rms_pos_err_m": 0.14182686647102385,
+      "max_pos_err_m": 0.2846247196574368,
+      "drift_pct": 3.7707454932295836,
+      "final_heading_err_deg": -30.674538624795343,
+      "rms_heading_err_deg": 17.725744654433623
+    },
+    "imu": {
+      "final_heading_err_deg": -30.739982894936233,
+      "rms_heading_err_deg": 17.69027957795121
+    }
+  }
+}
