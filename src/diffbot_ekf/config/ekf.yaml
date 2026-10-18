@@ -30,6 +30,7 @@ ekf_filter_node:
     odom0_queue_size: 10
     odom0_differential: false
     odom0_relative: false
+    odom0_twist_rejection_threshold: 5.0
 
     # Sensor 2: IMU
     imu0: /ekf_input/imu/data
@@ -42,3 +43,4 @@ ekf_filter_node:
     imu0_differential: false
     imu0_relative: false
     imu0_remove_gravitational_acceleration: true
+    imu0_twist_rejection_threshold: 5.0
