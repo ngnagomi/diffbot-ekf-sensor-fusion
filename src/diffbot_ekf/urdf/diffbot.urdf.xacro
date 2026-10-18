@@ -166,4 +166,61 @@
     </plugin>
   </gazebo>
 
+    <!-- IMU: mounted on top of the chassis, centered -->
+  <link name="imu_link"/>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 ${chassis_h/2}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Noise helper: one Gaussian noise block -->
+  <xacro:macro name="noise" params="std bias_mean bias_std">
+    <noise type="gaussian">
+      <mean>0.0</mean>
+      <stddev>${std}</stddev>
+      <bias_mean>${bias_mean}</bias_mean>
+      <bias_stddev>${bias_std}</bias_stddev>
+    </noise>
+  </xacro:macro>
+
+  <gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+      <always_on>true</always_on>
+      <update_rate>100</update_rate>
+      <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+        <ros>
+          <remapping>~/out:=imu/data</remapping>
+        </ros>
+        <initial_orientation_as_reference>false</initial_orientation_as_reference>
+        <frame_name>imu_link</frame_name>
+      </plugin>
+      <imu>
+        <angular_velocity>
+          <x><xacro:noise std="2e-4" bias_mean="7.5e-6" bias_std="8e-7"/></x>
+          <y><xacro:noise std="2e-4" bias_mean="7.5e-6" bias_std="8e-7"/></y>
+          <z><xacro:noise std="2e-4" bias_mean="7.5e-6" bias_std="8e-7"/></z>
+        </angular_velocity>
+        <linear_acceleration>
+          <x><xacro:noise std="1.7e-2" bias_mean="0.1" bias_std="0.001"/></x>
+          <y><xacro:noise std="1.7e-2" bias_mean="0.1" bias_std="0.001"/></y>
+          <z><xacro:noise std="1.7e-2" bias_mean="0.1" bias_std="0.001"/></z>
+        </linear_acceleration>
+      </imu>
+    </sensor>
+  </gazebo>
+
+  <!-- Robot's true pose from Gazebo (only for evaluation) -->
+  <gazebo>
+    <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+      <ros>
+        <remapping>odom:=ground_truth/odom</remapping>
+      </ros>
+      <body_name>base_link</body_name>
+      <frame_name>world</frame_name>
+      <update_rate>50</update_rate>
+      <gaussian_noise>0.0</gaussian_noise>
+    </plugin>
+  </gazebo>
+
 </robot>

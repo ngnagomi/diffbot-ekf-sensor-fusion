@@ -43,11 +43,19 @@ def generate_launch_description():
         output='screen'
     )
 
+    # world and odom are the same place: the robot spawns at the world origin
+    world_to_odom = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        arguments=['--frame-id', 'world', '--child-frame-id', 'odom'],
+        parameters=[{'use_sim_time': True}])
+
 
     return LaunchDescription([
         DeclareLaunchArgument('gui', default_value='true',
                               description='Show the Gazebo window (false = run without it)'),
         gazebo,
         rsp,
-        spawn_entity,
+        spawn_entity, 
+        world_to_odom,
     ])
