@@ -7,6 +7,8 @@
   <maintainer email="nagomi@todo.todo">nagomi</maintainer>
   <license>TODO: License declaration</license>
 
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>robot_localization</exec_depend>
 
   <test_depend>ament_copyright</test_depend>

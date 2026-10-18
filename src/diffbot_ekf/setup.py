@@ -30,6 +30,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'path_driver = diffbot_ekf.path_driver:main',
         ],
     },
 )
