@@ -14,6 +14,9 @@
   <xacro:property name="caster_r"  value="0.05"/>
   <xacro:property name="caster_m"  value="0.2"/>
 
+  <!-- true: the EKF publishes odom->base_link instead of diff-drive plugin -->
+  <xacro:arg name="use_ekf" default="false"/>
+
   <!-- Inertia helpers: standard formulas -->
   <xacro:macro name="box_inertia" params="m x y z">
     <inertial>
@@ -42,7 +45,7 @@
     </inertial>
   </xacro:macro>
 
-  <!-- =Chassis -->
+  <!-- Chassis -->
   <link name="base_link">
     <visual>
       <geometry>
@@ -147,7 +150,14 @@
 
       <odometry_source>0</odometry_source> <!-- default is 1, need to set to 0 -->
       <publish_odom>true</publish_odom>
-      <publish_odom_tf>true</publish_odom_tf>
+
+      <xacro:if value="$(arg use_ekf)">
+        <publish_odom_tf>false</publish_odom_tf>
+      </xacro:if>
+      <xacro:unless value="$(arg use_ekf)">
+        <publish_odom_tf>true</publish_odom_tf>
+      </xacro:unless>
+      
       <publish_wheel_tf>false</publish_wheel_tf>
       <odometry_frame>odom</odometry_frame>
       <robot_base_frame>base_link</robot_base_frame>
