@@ -32,6 +32,8 @@ setup(
         'console_scripts': [
             'path_driver = diffbot_ekf.path_driver:main',
             'evaluate = diffbot_ekf.evaluate:main',
+            'fault_injector = diffbot_ekf.fault_injector:main',
+            'compare = diffbot_ekf.compare:main',
         ],
     },
 )

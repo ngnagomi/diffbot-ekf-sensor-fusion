@@ -8,7 +8,7 @@ if [ -z "$1" ]; then
 fi
 
 NAME=$1
-shift                               # everything after the name goes to path_driver
+shift                              
 RUNS_DIR=~/ekf_ws/runs
 mkdir -p "$RUNS_DIR"
 
@@ -19,9 +19,10 @@ fi
 
 # 1. Start recording in the background
 ros2 bag record -o "$RUNS_DIR/$NAME" \
-  /ground_truth/odom /wheel/odometry /odometry/filtered /imu/data /cmd_vel &
+  /ground_truth/odom /wheel/odometry /odometry/filtered /imu/data /cmd_vel \
+  /ekf_input/wheel/odometry /ekf_input/imu/data &
 BAG_PID=$!
-sleep 3                             # give the recorder time to connect to every topic
+sleep 3                          
 
 # 2. Drive the pattern
 ros2 run diffbot_ekf path_driver --ros-args -p use_sim_time:=true "$@"

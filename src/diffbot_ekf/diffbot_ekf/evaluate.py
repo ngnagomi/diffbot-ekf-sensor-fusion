@@ -19,17 +19,21 @@ from rosidl_runtime_py.utilities import get_message
 ODOM_TOPICS = {
     '/ground_truth/odom': 'truth',
     '/wheel/odometry': 'wheel',
+    '/ekf_input/wheel/odometry': 'wheel_in',
     '/odometry/filtered': 'ekf',
 }
-IMU_TOPIC = '/imu/data'
-
-STYLE = {   # name: (legend label, colour)
-    'truth': ('Ground truth', 'tab:green'),
-    'wheel': ('Wheel odometry', 'tab:red'),
-    'ekf':   ('EKF (wheels + IMU)', 'tab:blue'),
-    'imu':   ('Gyro only (integrated)', 'tab:gray'),
+IMU_TOPICS = {
+    '/imu/data': 'imu_raw',
+    '/ekf_input/imu/data': 'imu',
 }
 
+STYLE = {   # name: (legend label, colour)
+    'truth':    ('Ground truth', 'tab:green'),
+    'wheel':    ('Wheel odometry', 'tab:red'),
+    'wheel_in': ('Wheel odometry with fault (EKF input)', 'tab:orange'),
+    'ekf':      ('EKF (wheels + IMU)', 'tab:blue'),
+    'imu':      ('Gyro only, as fed to EKF', 'tab:gray'),
+}
 
 # Helpers
 
@@ -50,13 +54,13 @@ def wrap(angle):
 # Reading the bag
 
 def read_bag(path):
-    # Return {'truth'|'wheel'|'ekf': rows of (t, x, y, yaw), 'imu': rows of (t, wz)}.
+    # Return {'truth'|'wheel'|'wheel_in'|'ekf': rows of (t, x, y, yaw), 'imu': rows of (t, wz)}.
     reader = rosbag2_py.SequentialReader()
     reader.open(rosbag2_py.StorageOptions(uri=path, storage_id='sqlite3'),
                 rosbag2_py.ConverterOptions('cdr', 'cdr'))
     msg_types = {t.name: get_message(t.type) for t in reader.get_all_topics_and_types()}
 
-    rows = {'truth': [], 'wheel': [], 'ekf': [], 'imu': []}
+    rows = {'truth': [], 'wheel': [], 'wheel_in': [], 'ekf': [], 'imu': [], 'imu_raw': []}
     while reader.has_next():
         topic, raw, _ = reader.read_next()
         if topic in ODOM_TOPICS:
@@ -65,15 +69,19 @@ def read_bag(path):
             rows[ODOM_TOPICS[topic]].append(
                 (stamp_to_sec(msg.header.stamp), p.position.x, p.position.y,
                  yaw_from_quaternion(p.orientation)))
-        elif topic == IMU_TOPIC:
+        elif topic in IMU_TOPICS:
             msg = deserialize_message(raw, msg_types[topic])
-            rows['imu'].append((stamp_to_sec(msg.header.stamp), msg.angular_velocity.z))
+            rows[IMU_TOPICS[topic]].append(
+                (stamp_to_sec(msg.header.stamp), msg.angular_velocity.z))
 
     data = {}
     for name, r in rows.items():
         if r:
             arr = np.array(r)
-            data[name] = arr[np.argsort(arr[:, 0])]   # sort by timestamp
+            data[name] = arr[np.argsort(arr[:, 0])]   
+
+    if 'imu' not in data and 'imu_raw' in data:
+        data['imu'] = data['imu_raw']
     return data
 
 
@@ -87,7 +95,7 @@ def evaluate(data):
 
     metrics, errors = {}, {}
 
-    for name in ('wheel', 'ekf'):
+    for name in ('wheel', 'wheel_in', 'ekf'):
         if name not in data:
             continue
         est = data[name]
@@ -132,7 +140,7 @@ def evaluate(data):
 
 def plot_paths(data, metrics, title, out_png):
     fig, ax = plt.subplots(figsize=(7, 7))
-    for name, width in (('truth', 4.0), ('wheel', 1.8), ('ekf', 1.8)):
+    for name, width in (('truth', 4.0), ('wheel_in', 1.8), ('wheel', 1.8), ('ekf', 1.8)):
         if name not in data:
             continue
         label, colour = STYLE[name]

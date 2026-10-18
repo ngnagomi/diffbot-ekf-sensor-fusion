@@ -16,7 +16,7 @@ ekf_filter_node:
     world_frame: odom        # estimate pose in odom -> this node publishes odom -> base_link
 
     # Sensor 1: wheel odometry
-    odom0: /wheel/odometry
+    odom0: /ekf_input/wheel/odometry
     # Order:  X      Y      Z
     #         roll   pitch  yaw
     #         vx     vy     vz
@@ -32,7 +32,7 @@ ekf_filter_node:
     odom0_relative: false
 
     # Sensor 2: IMU
-    imu0: /imu/data
+    imu0: /ekf_input/imu/data
     imu0_config: [false, false, false,
                   false, false, false,   
                   false, false, false,

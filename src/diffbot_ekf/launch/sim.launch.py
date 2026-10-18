@@ -64,14 +64,25 @@ def generate_launch_description():
         parameters=[os.path.join(pkg, 'config', 'ekf.yaml'), {'use_sim_time': True}],
         condition=IfCondition(use_ekf))
 
+    # Sits between the sensors and the EKF
+    fault_injector = Node(
+        package='diffbot_ekf',
+        executable='fault_injector',
+        output='screen',
+        parameters=[{'use_sim_time': True, 'fault': LaunchConfiguration('fault')}],
+        condition=IfCondition(use_ekf))
+
     return LaunchDescription([
         DeclareLaunchArgument('gui', default_value='true',
                               description='Show the Gazebo window (false = run without it)'),
         DeclareLaunchArgument('use_ekf', default_value='true',
                               description='Run the EKF (will own odom->base_link)'),
+        DeclareLaunchArgument('fault', default_value='none',
+                              description='none | wheel_scale | wheel_slip | imu_spikes | imu_dropout'),
         gazebo,
         rsp,
         spawn_entity, 
         world_to_odom,
         ekf,
+        fault_injector,
     ])
