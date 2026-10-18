@@ -1,0 +1,44 @@
+# The top-level name must match the node's name in the launch file (Lesson 9).
+ekf_filter_node:
+  ros__parameters:
+
+    # General
+    frequency: 30.0          # predict/publish 30 times per second
+    sensor_timeout: 0.1      # if no sensor data for 0.1 s, keep predicting anyway
+    two_d_mode: true         # flat ground: ignore Z, roll, pitch and their rates
+    publish_tf: true         # publish odom -> base_link
+    print_diagnostics: true  # report issues on the /diagnostics topic
+
+    # rames (REP-105) 
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom        # estimate pose in odom -> this node publishes odom -> base_link
+
+    # Sensor 1: wheel odometry
+    odom0: /wheel/odometry
+    # Order:  X      Y      Z
+    #         roll   pitch  yaw
+    #         vx     vy     vz
+    #         vroll  vpitch vyaw
+    #         ax     ay     az
+    odom0_config: [false, false, false,
+                   false, false, false,
+                   true,  true,  false,   
+                   false, false, false,  
+                   false, false, false]
+    odom0_queue_size: 10
+    odom0_differential: false
+    odom0_relative: false
+
+    # Sensor 2: IMU
+    imu0: /imu/data
+    imu0_config: [false, false, false,
+                  false, false, false,   
+                  false, false, false,
+                  false, false, true,  
+                  false, false, false]
+    imu0_queue_size: 20
+    imu0_differential: false
+    imu0_relative: false
+    imu0_remove_gravitational_acceleration: true
