@@ -30,6 +30,7 @@ class FaultInjector(Node):
         self.declare_parameter('window_period', 10.0)  # timed faults: a window starts this often, s
         self.declare_parameter('window_length', 3.0)   # timed faults: each window lasts this long, s
         self.declare_parameter('seed', 42)             # same seed -> same "random" spikes every run
+        self.declare_parameter('wheel_vyaw_std', 0.2)
 
         self.fault = self.get_parameter('fault').value
         if self.fault not in FAULTS:
@@ -105,7 +106,13 @@ class FaultInjector(Node):
         out.twist.twist.linear.x = vx
         out.twist.twist.linear.y = msg.twist.twist.linear.y
         out.twist.twist.angular.z = wz
-        out.twist.covariance = msg.twist.covariance
+
+        twist_cov = list(msg.twist.covariance) # 6x6 matrix, flattened to 36 numbers
+        std = self.param('wheel_vyaw_std')
+        if std > 0:
+            twist_cov[35] = std ** 2 # position 35 = the vyaw variance
+        out.twist.covariance = twist_cov
+
         self.odom_pub.publish(out)
 
     # IMU
